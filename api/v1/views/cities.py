@@ -80,16 +80,22 @@ def post_city(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404, description="State not found")
-    if not request.get_json():
+    if not request.get_json(silent=True):
         abort(400, description="Not a JSON")
-    if 'name' not in request.get_json():
+    if 'name' not in request.get_json(silent=True):
         abort(400, description="Missing name")
-    data = request.get_json()
-    data['state_id'] = state_id
-    new_city = City(**data)
-    storage.new(new_city)
+    data = request.get_json(silent=True)
+    # data['state_id'] = state_id
+    # new_city = City(**data)
+    # storage.new(new_city)
+    # storage.save()
+    # return jsonify(new_city.to_dict()), 201
+    names = data["name"]
+    obj = cls(name=names, state_id=state_id)
+    storage.new(obj)
     storage.save()
-    return jsonify(new_city.to_dict()), 201
+    storage.reload()
+    return jsonify(obj.to_dict()), 201
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False, methods=['PUT'])
