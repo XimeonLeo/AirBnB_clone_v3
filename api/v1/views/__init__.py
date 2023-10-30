@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Handles all default RESTful API action
+""" Blueprint for the API
 """
 
 from flask import Blueprint
