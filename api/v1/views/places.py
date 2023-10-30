@@ -16,7 +16,7 @@ def get_places(city_id):
     """
     city = storage.get(City, city_id)
     if not city:
-        abort(404, description="City not found")
+        abort(404)
     places_all = city.places
     places_list = []
     for place in places_all:
@@ -31,7 +31,7 @@ def get_place(place_id):
     """
     place = storage.get(Place, place_id)
     if not place:
-        abort(404, description="Place not found")
+        abort(404)
     return jsonify(place.to_dict()), 200
 
 
@@ -57,7 +57,7 @@ def post_place(city_id):
     """
     city = storage.get(City, city_id)
     if not city:
-        abort(404, description="City not found")
+        abort(404)
     place = request.get_json()
     if not place:
         abort(400, description="Not a JSON")
