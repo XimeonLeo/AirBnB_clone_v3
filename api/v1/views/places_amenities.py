@@ -22,13 +22,13 @@ def get_amenities(place_id):
         if environ.get('HBNB_TYPE_STORAGE') == 'db':
                 amenities = [amenity.to_dict() for amenity in place.amenities]
         else:
-            amenities = [storage.get(Amenity, amenity_id).to_dict()
-                         for amenity_id in place.amenity_ids]
+                amenities = [storage.get(Amenity, amenity_id).to_dict() 
+                             for amenity_id in place.amenity_ids]
 
         return jsonify(amenities), 200
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+@app_views.route('/places/<place_id>/amenities/<amenity_id>', 
                  methods=['DELETE'], strict_slashes=False)
 def delete_amenity(place_id, amenity_id):
         """
@@ -56,7 +56,7 @@ def delete_amenity(place_id, amenity_id):
         return jsonify({}), 200
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+@app_views.route('/places/<place_id>/amenities/<amenity_id>', 
                  methods=['POST'], strict_slashes=False)
 def post_amenity(place_id, amenity_id):
         """
@@ -65,9 +65,12 @@ def post_amenity(place_id, amenity_id):
         place = storage.get(Place, place_id)
         if not place:
                 abort(404, description="Place not found")
-                amenity = storage.get(Amenity, amenity_id)
+
+        amenity = storage.get(Amenity, amenity_id)
+
         if not amenity:
                 abort(404, description="Amenity not found")
+
         if environ.get('HBNB_TYPE_STORAGE') == 'db':
                 if amenity in place.amenities:
                         return jsonify(amenity.to_dict()), 200
